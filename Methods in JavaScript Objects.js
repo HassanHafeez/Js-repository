@@ -12,3 +12,6 @@ let car = {
 };
 
 let carStart = car.start(); // calls the start method and returns 'Engine started!'
+let carColor = car.displayColor(); // calls the displayColor method which logs the color but does not return anything
+console.log(carStart); // prints 'Engine started!'
+console.log(carColor); // prints undefined
