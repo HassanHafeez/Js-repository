@@ -1,0 +1,76 @@
+// Hangman Game Code
+
+let wordToGuess = "";
+let guessedLetters = [];
+let tries = 10;
+let wordLength = 0;
+
+// Menu
+console.log("Welcome to Hangman Game!");
+console.log("-------------------------------");
+console.log("1. Start New Game");
+console.log("2. Quit Game");
+console.log("-------------------------------");
+
+let menuChoice = prompt("Enter your choice (1/2): ");
+
+if (menuChoice === "1") {
+  startNewGame();
+} else if (menuChoice === "2") {
+  console.log("Goodbye!");
+} else {
+  console.log("Invalid choice. Please try again.");
+  menu();
+}
+
+// Start New Game
+function startNewGame() {
+  wordToGuess = getRandomWord();
+  wordLength = wordToGuess.length;
+  guessedLetters = [];
+  tries = 10;
+  console.log(`_`.repeat(wordLength));
+  playGame();
+}
+
+// Play Game
+function playGame() {
+  let guess = prompt("Guess a letter: ").toLowerCase();
+  if (guessedLetters.includes(guess)) {
+    console.log("You already guessed this letter. Try again!");
+  } else {
+    guessedLetters.push(guess);
+    if (wordToGuess.includes(guess)) {
+      console.log(`Good guess! ${guess} is in the word.`);
+      let wordProgress = "";
+      for (let i = 0; i < wordLength; i++) {
+        if (wordToGuess[i] === guess) {
+          wordProgress += guess;
+        } else if (guessedLetters.includes(wordToGuess[i])) {
+          wordProgress += wordToGuess[i];
+        } else {
+          wordProgress += "_";
+        }
+      }
+      console.log(wordProgress);
+      if (!wordProgress.includes("_")) {
+        console.log(" Congratulations! You won!");
+        menu();
+      }
+    } else {
+      tries--;
+      console.log(`Oops! ${guess} is not in the word. You have ${tries} tries left.`);
+      if (tries === 0) {
+        console.log(`Game over! The word was ${wordToGuess}.`);
+        menu();
+      }
+    }
+  }
+  playGame();
+}
+
+// Get Random Word
+function getRandomWord() {
+  let words = ["apple", "banana", "cherry", "date", "elderberry"];
+  return words[Math.floor(Math.random() * words.length)];
+}
